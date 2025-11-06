@@ -130,7 +130,55 @@ while opcion != "7":
             print("opcion 3.")
         
         case "4":
-            print("opcion 4.")
+            while True:
+                filtro = input("Eliga como desea filtrar el archivo:\n1.Por continente.\n2.Por rango de poblacion.\n3.Por rango de superficie.\n").strip()
+                filtro_existe = False
+                if filtro == "1":
+                    continente = input("Ingrese el continente: ").lower().strip()
+                    with open('paises.csv','r') as archivo:
+                        lineas = archivo.readlines()
+                        for linea in lineas:
+                            nombres,poblaciones,superficies,continentes = linea.strip().split(',')
+                            if continentes == continente:
+                                filtro_existe = True
+                                print(linea)
+                            if filtro_existe == False:
+                                print("No existen paises que pertenezcan a ese continente en el archivo.")
+                    break
+                
+                elif filtro == "2":
+                    minimo = input("Introduzca el numero minimo de poblacion: ")
+                    maximo = input("Introduzca el numero maximo de poblacion: ")
+                    with open('paises.csv','r') as archivo:
+                        lineas = archivo.readlines()
+                        for linea in lineas:
+                            nombres,poblaciones,superficies,continentes = linea.strip().split(',')
+
+                            if poblaciones > minimo and poblaciones < maximo:
+                                filtro_existe = True
+                                print(linea)
+                            if filtro_existe == False: 
+                                print("No existen paises en el archivo con esos criterios.")
+                    break
+
+                elif filtro == "3":
+                    minimo = input("Introduzca el numero minimo de la superficie: ")
+                    maximo = input("Introduzca el numero maximo de la superficie: ")
+                    with open('paises.csv','r') as archivo:
+                        lineas = archivo.readlines()
+                        for linea in lineas:
+                            nombres,poblaciones,superficies,continentes = linea.strip().split(',')
+
+                            if superficies > minimo and superficies < maximo:
+                                filtro_existe = True
+                                print(linea)
+                            if filtro_existe == False: 
+                                print("No existen paises en el archivo con esos criterios.")
+                    break
+
+                else:
+                    print("Error. Intente de nuevo.")
+                
         
         case "5":
             print("opcion 5")
