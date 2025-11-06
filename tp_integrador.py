@@ -3,6 +3,7 @@
 with open ('paises.csv','w') as archivo:
     archivo.write('Nombre,Poblacion,Superficie,Continente\n')
     archivo.write('argentina,40,150,america\n')
+    archivo.write('brasil,80,500,america\n')
 
 def comprobar_existencia(pais):
     existe = False
@@ -12,12 +13,27 @@ def comprobar_existencia(pais):
             nombre,poblacion,superficie,continente = elemento.strip().split(',')
             if nombre == pais:
                 existe = True
-                print("Ese pais ya existe en el archivo.")
     return existe
 
 def actualizar_archivo(nombre,poblacion,superficie,continente):
-    with open('paises.csv','a') as archivo:
-        archivo.write(f"{nombre},{poblacion},{superficie},{continente}\n")
+    if comprobar_existencia(pais):
+        archivo_actualizado = []
+        with open('paises.csv','r') as archivo:
+            lineas = archivo.readlines()
+                    
+        for linea in lineas:
+            nombre,poblacion,superficie,continente = linea.strip().split(",")
+            if nombre == pais:
+                archivo_actualizado.append(f"{pais},{nueva_poblacion},{nueva_superficie},{continente}\n")
+            else:
+                archivo_actualizado.append(linea)
+
+        with open('paises.csv', 'w') as archivo:
+            archivo.writelines(archivo_actualizado)
+    
+    else:
+        with open('paises.csv','a') as archivo:
+            archivo.write(f"{nombre},{poblacion},{superficie},{continente}\n")
 
     with open('paises.csv','r') as archivo:
         contenido = archivo.read()
@@ -26,7 +42,6 @@ def actualizar_archivo(nombre,poblacion,superficie,continente):
 def comprobar_vacio(entrada):
     vacio = False
     if entrada == "":
-        print("Error. Debe ingresar un dato.")
         vacio = True
     return vacio
 
@@ -51,7 +66,7 @@ while opcion != "7":
             while True:
                 pais = input("¿Que pais desea agregar? ").lower().strip()
                 if comprobar_existencia(pais) == True or comprobar_vacio(pais) == True:
-                    pass    
+                    print("Error. Intente de nuevo.")    
                 else:
                     break
                     
@@ -79,15 +94,44 @@ while opcion != "7":
             actualizar_archivo(pais,poblacion,superficie,continente)
             print("El archivo se ha actualizado con exito.")
 
+        case "2":
+            while True: 
+                pais = input("¿Que pais desea actualizar? ").lower().strip()
+                if comprobar_existencia(pais) == False or comprobar_vacio(pais) == True:
+                    pass
+                else: 
+                    break
+            
+            while True:
+                nueva_poblacion = input("Ingrese la nueva poblacion: ").strip()
+                print(nueva_poblacion.isdigit())
+                if nueva_poblacion.isdigit():
+                    break
+                else:
+                    print("La entrada debe ser un numero.")
 
+            while True:
+                nueva_superficie = input("Ingrese la nueva superficie: ").strip()
+                if nueva_superficie.isdigit():
+                    break
+                else:
+                    print("La entrada debe ser un numero.")
 
+            with open('paises.csv','r') as archivo:
+                lineas = archivo.readlines()
+                for elemento in lineas:
+                    nombre,poblacion,superficie,continente = elemento.strip().split(',')
+                    if nombre == pais:
+                        continente = continente
 
-        case "2": 
-            print("opcion 2")
+            actualizar_archivo(pais,nueva_poblacion,nueva_superficie,continente)      
+
         case "3":
-            print("opcion 3")
+            print("opcion 3.")
+        
         case "4":
-            print("opcion 4")
+            print("opcion 4.")
+        
         case "5":
             print("opcion 5")
         case "6":
