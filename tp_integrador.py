@@ -2,8 +2,7 @@
 
 with open ('paises.csv','w') as archivo:
     archivo.write('Nombre,Poblacion,Superficie,Continente\n')
-    archivo.write('argentina,40,150,america\n')
-    archivo.write('brasil,80,500,america\n')
+
 
 def comprobar_existencia(pais):
     existe = False
@@ -127,12 +126,20 @@ while opcion != "7":
             actualizar_archivo(pais,nueva_poblacion,nueva_superficie,continente)      
 
         case "3":
-            print("opcion 3.")
-        
+            pais = input("Buscar: ").lower().strip()
+            with open('paises.csv','r') as archivo:
+                lineas = archivo.readlines()
+                for linea in lineas[1:]:
+                    nombres,poblaciones,superficies,continentes = linea.strip().split(',')
+                    
+                    if pais.lower() in nombres.lower():
+                        print(linea)
+
         case "4":
             while True:
                 filtro = input("Eliga como desea filtrar el archivo:\n1.Por continente.\n2.Por rango de poblacion.\n3.Por rango de superficie.\n").strip()
                 filtro_existe = False
+                
                 if filtro == "1":
                     continente = input("Ingrese el continente: ").lower().strip()
                     with open('paises.csv','r') as archivo:
@@ -179,7 +186,6 @@ while opcion != "7":
                 else:
                     print("Error. Intente de nuevo.")
                 
-        
         case "5":
             print("opcion 5")
         case "6":
